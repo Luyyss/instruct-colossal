@@ -1,13 +1,17 @@
 from DataBase import DataBase
-# from classes import Utils
+from Utils import Utils
 
-# utils = Utils()
+utils = Utils()
 db = DataBase()
-db.insert("tb_feriado", ['nome', 'poder', 'mes', 'dia', 'tipo'], ['Tiradentes', 'N', '04', '21', 'F'])
-db.insert("tb_feriado", ['nome', 'poder', 'mes', 'dia', 'tipo'], ['Dia do Trabalhador', 'N', '05', '01', 'F'])
-db.insert("tb_feriado", ['nome', 'poder', 'mes', 'dia', 'tipo'], ['Independência', 'N', '09', '07', 'F'])
-db.insert("tb_feriado", ['nome', 'poder', 'mes', 'dia', 'tipo'], ['Nossa Senhora Aparecida', 'N', '10', '12', 'F'])
-db.insert("tb_feriado", ['nome', 'poder', 'mes', 'dia', 'tipo'], ['Finados', 'N', '11', '02', 'F'])
-db.insert("tb_feriado", ['nome', 'poder', 'mes', 'dia', 'tipo'], ['Proclamação da República', 'N', '11', '15', 'F'])
-db.insert("tb_feriado", ['nome', 'poder', 'mes', 'dia', 'tipo'], ['Natal', 'N', '12', '25', 'F'])
+
+ano = utils.getCurTime('Y')
+
+db.insert("tb_feriado", ['nome', 'poder', 'ano', 'mes', 'dia', 'tipo'], ['Ano novo', 'N', ano, '01', '01', 'F'])
+db.insert("tb_feriado", ['nome', 'poder', 'ano', 'mes', 'dia', 'tipo'], ['Tiradentes', 'N', ano, '04', '21', 'F'])
+db.insert("tb_feriado", ['nome', 'poder', 'ano', 'mes', 'dia', 'tipo'], ['Dia do Trabalhador', 'N', ano, '05', '01', 'F'])
+db.insert("tb_feriado", ['nome', 'poder', 'ano', 'mes', 'dia', 'tipo'], ['Independência', 'N', ano, '09', '07', 'F'])
+db.insert("tb_feriado", ['nome', 'poder', 'ano', 'mes', 'dia', 'tipo'], ['Nossa Senhora Aparecida', 'N', ano, '10', '12', 'F'])
+db.insert("tb_feriado", ['nome', 'poder', 'ano', 'mes', 'dia', 'tipo'], ['Finados', 'N', ano, '11', '02', 'F'])
+db.insert("tb_feriado", ['nome', 'poder', 'ano', 'mes', 'dia', 'tipo'], ['Proclamação da República', 'N', ano, '11', '15', 'F'])
+db.insert("tb_feriado", ['nome', 'poder', 'ano', 'mes', 'dia', 'tipo'], ['Natal', 'N', ano, '12', '25', 'F'])
 # db.delete('tb_feriado', 'id_feriado = 8').showSql().do()

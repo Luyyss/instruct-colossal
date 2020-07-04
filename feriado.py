@@ -1,4 +1,4 @@
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, request
 from DataBase import DataBase
 from Utils import Utils
 
@@ -27,7 +27,12 @@ class FeriadoListLocal(Resource):
 class FeriadoListData(Resource):
 
     def get(self, local, data):
-        return 'ok', 200
+
+        result = db.select("tb_feriado", ['nome'], " concat(ano,'-', mes, '-', dia) = '"+data+"'", ' AND (local = ' + local + ' OR local = null ) ')
+        # result =  print(db.showSql())
+        # return result if result else {} , 200
+        # return {'sql':db.sql}, 200
+        return result, 200
 
     def put(self, local, data):
         return 'ok', 200
@@ -40,10 +45,13 @@ class Feriado(Resource):
     def get(self, local, data, nome):
         return 'ok', 200
 
-    def put(self, local, data, nome):
+    def put(self, local, data):
 
+        utils.validRequest(request)
+
+        nome = 'name'
         data = utils.trataData(data)
-        poder = 'E' if len(local) == 2 else 'M'
+        poder = utils.trataPoder(local)
         tipo = 'M'
 
         cols = ['nome', 'poder', 'ano', 'mes', 'dia', 'tipo', 'local']

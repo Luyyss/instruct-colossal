@@ -1,9 +1,17 @@
 from datetime import datetime
+from flask import abort
 
 class Utils:
 
     def impode(self, s, char, quotes):
         return (char.join("'{0}'".format(i) for i in s)) if quotes else char.join(s)
+
+    def validRequest(self, request):
+        if not request.json:
+            abort(400)
+
+    def trataPoder(self, l):
+        return 'E' if len(l) == 2 else 'M'
 
     def trataData(self, d):
 
