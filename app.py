@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from config import Config, DevelopmentConfig
+from flask_sqlalchemy import SQLAlchemy
 
 config = Config()
 # print(os.environ['APP_SETTINGS'])
@@ -8,6 +9,11 @@ config = Config()
 app = Flask(__name__)
 # app.config.from_object(os.environ['APP_SETTINGS'])
 app.config.from_object(DevelopmentConfig())
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+from models import Estado
 
 @app.route('/')
 def hello():

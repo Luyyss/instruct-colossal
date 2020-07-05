@@ -16,7 +16,8 @@ class DataBase:
                 user = 'postgres',
                 password = 'root',
                 host = 'localhost',
-                port = '5432'
+                port = '5432', 
+                # sslmode='require'
             )
         except (Exception, psycopg2.Error) as error :
             print("Falha ao conectar", error)
