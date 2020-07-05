@@ -3,15 +3,20 @@ from flask import abort
 
 class Utils:
 
+    prefixos = [12,27,16,13,29,23,53,32,52,21,51,50,31,15,25,41,26,22,33,24,43,11,14,42,35,28,17]
+
     def impode(self, s, char, quotes):
         return (char.join("'{0}'".format(i) for i in s)) if quotes else char.join(s)
+
+    def isUf(self, local):
+        return local in self.prefixos
 
     def validRequest(self, request):
         if not request.json:
             abort(400)
 
     def trataPoder(self, l):
-        return 'E' if len(l) == 2 else 'M'
+        return 'E' if self.isUf(l) else 'M'
 
     def trataData(self, d):
 
@@ -25,8 +30,8 @@ class Utils:
 
     def getCurTime(self, w):
         if w == 'D':
-            return datetime.now().day
+            return str(datetime.now().day)
         elif w == 'M':
-            return datetime.now().month
+            return str(datetime.now().month)
         elif w == 'Y':
-            return datetime.now().year
+            return str(datetime.now().year)

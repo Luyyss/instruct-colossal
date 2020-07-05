@@ -7,6 +7,8 @@ utils = Utils()
 
 class DataBase:
 
+    sql = ''
+
     def __init__(self):
         try:
             self.conn = psycopg2.connect(
@@ -49,7 +51,7 @@ class DataBase:
             print("Falha ao buscar", error)
 
     def insert(self, table, cols, vals):
-        try:
+        # try:
             self.cur = self.conn.cursor()
             self.sql = """ INSERT INTO """
             self.sql += table
@@ -58,11 +60,12 @@ class DataBase:
             self.sql += """) VALUES ("""
             self.sql += utils.impode(vals, ', ', True)
             self.sql += """)"""
+
             self.cur.execute(self.sql)
             self.conn.commit()
 
-        except (Exception, psycopg2.Error) as error :
-            print("Falha ao inserir", error)
+        # except (Exception, psycopg2.Error) as error :
+        #     print("Falha ao inserir", error)
 
 
     def delete(self, table, where):
