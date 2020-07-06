@@ -1,8 +1,10 @@
-from app import db
 from sqlalchemy import Column, Integer, String, Text
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
 
 Base = declarative_base()
+
+engine = create_engine('postgresql+psycopg2://jjsnpzvghssord:989264f977fd75081cfd4f7d619f531f5c20120a71ad28b513baffe40172326a@ec2-3-208-50-226.compute-1.amazonaws.com:5432/dcbcf4l61o8l2n', echo=True)
 
 class Estado(Base):
     __tablename__ = 'tb_estado'
@@ -44,3 +46,5 @@ class Feriado(Base):
 
     def __repr__(self):
         return '<Feriado {}>'.format(self.id)
+
+Base.metadata.create_all(engine)
