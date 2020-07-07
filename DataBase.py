@@ -11,6 +11,7 @@ class DataBase:
 
     sql = ''
 
+
     def __init__(self):
         try:
             self.conn = psycopg2.connect(
@@ -21,7 +22,15 @@ class DataBase:
                 port = '5432', 
                 sslmode='require'
             )
+            # self.conn = psycopg2.connect(
+            #     database = 'colossal',
+            #     user = 'postgres',
+            #     password = 'root',
+            #     host = 'localhost',
+            #     port = '5432'
+            # )
 
+            # self.engine = create_engine('postgresql+psycopg2://postgres:root@localhost:5432/colossal', echo=True)
             # Session = sessionmaker(bind=engine)
             # self.session = Session()
 
@@ -32,11 +41,16 @@ class DataBase:
 
     def run(self, sql, method):
         try:
-            self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
+
+            if method == 'select':
+                self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
+            
             self.cur.execute(sql)
 
             if method == 'select':
                 return self.cur.fetchall()
+            elif method == 'do':
+                self.conn.commit()
 
         except (Exception, psycopg2.Error) as error :
             print("Falha ao executar", error)
@@ -80,6 +94,7 @@ class DataBase:
             return True
 
         except (Exception, psycopg2.Error) as error :
+            print({'r':'error', 'cause':str(error) })
             self.cur.execute("ROLLBACK")
             self.conn.commit()
             return {'r':'error', 'cause':str(error) }

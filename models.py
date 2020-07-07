@@ -8,19 +8,13 @@ engine = create_engine('postgresql+psycopg2://olmpqxlstufibe:ae9db5deb023cb3598e
 
 class Estado(Base):
     __tablename__ = 'tb_estado'
-    # __table_args__ = {"schema": "example"}
 
-    id = Column(Integer, primary_key=True)
-    prefixo = Column(String(7))
-    nome = Column(String(100))
-
-    # def __init__(self, url, result_all, result_no_stop_words):
-    #     self.url = url
-    #     self.result_all = result_all
-    #     self.result_no_stop_words = result_no_stop_words
+    prefixo = Column(String(2), primary_key=True)
+    sigla = Column(String(2))
 
     def __repr__(self):
-        return '<Estado {}>'.format(self.id)
+        return '<Estado {}>'.format(self.prefixo)
+
 
 class Cidade(Base):
     __tablename__ = 'tb_cidade'
