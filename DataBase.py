@@ -14,16 +14,13 @@ class DataBase:
     def __init__(self):
         try:
             self.conn = psycopg2.connect(
-                database = 'dcbcf4l61o8l2n',
-                user = 'jjsnpzvghssord',
-                password = '989264f977fd75081cfd4f7d619f531f5c20120a71ad28b513baffe40172326a',
-                host = 'ec2-3-208-50-226.compute-1.amazonaws.com',
+                database = 'd2s5lto2hij18t',
+                user = 'olmpqxlstufibe',
+                password = 'ae9db5deb023cb3598e7138915b4165b32269e44cb62def87f0ced1cd8ec5275',
+                host = 'ec2-3-216-129-140.compute-1.amazonaws.com',
                 port = '5432', 
                 sslmode='require'
             )
-            # self.conn = 
-            # engine = create_engine('postgresql+psycopg2://postgres:passwordroot:5432/colossal', echo=True)
-            # engine = create_engine('postgresql+psycopg2://jjsnpzvghssord:989264f977fd75081cfd4f7d619f531f5c20120a71ad28b513baffe40172326a@ec2-3-208-50-226.compute-1.amazonaws.com:5432/dcbcf4l61o8l2n', echo=True)
 
             # Session = sessionmaker(bind=engine)
             # self.session = Session()
@@ -87,6 +84,28 @@ class DataBase:
             self.conn.commit()
             return {'r':'error', 'cause':str(error) }
 
+    def update(self, table, cols, vals, where):
+        try:
+            self.cur = self.conn.cursor()
+            self.sql = " UPDATE " + table + " SET "
+
+            for val in cols:
+                self.sql += val + ' = %s, '
+
+            self.sql = self.sql[0:len(self.sql)-2]
+
+            self.sql += " WHERE " + where
+            # print(self.sql)
+            self.cur.execute(self.sql, vals)
+            self.conn.commit()
+
+            return True
+
+        except (Exception, psycopg2.Error) as error :
+            self.cur.execute("ROLLBACK")
+            self.conn.commit()
+            return {'r':'error', 'cause':str(error) }
+
     def delete(self, table, where):
         try:
             self.cur = self.conn.cursor()
@@ -94,10 +113,12 @@ class DataBase:
             self.cur.execute(self.sql)
             self.conn.commit()
 
-            return self
+            return True
 
         except (Exception, psycopg2.Error) as error :
-            print("Falha ao deletar", error)
+            self.cur.execute("ROLLBACK")
+            self.conn.commit()
+            return {'r':'error', 'cause':str(error) }
 
     def showSql(self):
         print(self.sql)

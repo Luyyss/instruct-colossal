@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
-engine = create_engine('postgresql+psycopg2://jjsnpzvghssord:989264f977fd75081cfd4f7d619f531f5c20120a71ad28b513baffe40172326a@ec2-3-208-50-226.compute-1.amazonaws.com:5432/dcbcf4l61o8l2n', echo=True)
+engine = create_engine('postgresql+psycopg2://olmpqxlstufibe:ae9db5deb023cb3598e7138915b4165b32269e44cb62def87f0ced1cd8ec5275@ec2-3-216-129-140.compute-1.amazonaws.com:5432/d2s5lto2hij18t', echo=True)
 
 class Estado(Base):
     __tablename__ = 'tb_estado'
@@ -42,7 +42,7 @@ class Feriado(Base):
     mes = Column(String(2))
     dia = Column(String(2))
     tipo = Column(String(1))
-    local = Column(String(1), nullable=True)
+    local = Column(String(7), nullable=True)
 
     def __repr__(self):
         return '<Feriado {}>'.format(self.id)
