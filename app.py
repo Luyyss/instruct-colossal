@@ -1,10 +1,8 @@
-import os
-from flask import Flask, make_response, jsonify, request
+from flask import Flask, jsonify, request
 from config import ProductionConfig
-from flask_sqlalchemy import SQLAlchemy
+
 from Utils import Utils
 from FeriadoUtils import FeriadoUtils
-
 from DataBase import DataBase
 
 db = DataBase()
@@ -14,13 +12,7 @@ feriadoUtil = FeriadoUtils(utils)
 headers = {"Content-Type": "application/json"}
 
 app = Flask(__name__)
-# app.config.from_object(os.environ['APP_SETTINGS'])
 app.config.from_object(ProductionConfig())
-
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# db = SQLAlchemy(app)
-
-from models import Estado
 
 @app.route('/')
 def hello():

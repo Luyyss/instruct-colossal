@@ -11,17 +11,17 @@ class DataBase:
 
     sql = ''
 
-
     def __init__(self):
         try:
             self.conn = psycopg2.connect(
-                database = 'd2s5lto2hij18t',
-                user = 'olmpqxlstufibe',
-                password = 'ae9db5deb023cb3598e7138915b4165b32269e44cb62def87f0ced1cd8ec5275',
-                host = 'ec2-3-216-129-140.compute-1.amazonaws.com',
-                port = '5432', 
-                sslmode='require'
+                database = 'dfa2aftddq666l',
+                user = 'wikljwjrsqdeio',
+                password = '757129869d233c6e6c2c746adbb1d571090d5b3bd71657c76b1923fb17f5c3fd',
+                host = 'ec2-54-91-178-234.compute-1.amazonaws.com',
+                port = '5432'
+                # , sslmode='require'
             )
+
             # self.conn = psycopg2.connect(
             #     database = 'colossal',
             #     user = 'postgres',
