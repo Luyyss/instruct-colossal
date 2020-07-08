@@ -67,12 +67,11 @@ db = DataBase()
 # db.insert("tb_feriado", ['name', 'poder', 'mes', 'dia', 'tipo'], ['Proclamação da República', 'N', '11', '15', 'F'])
 # db.insert("tb_feriado", ['name', 'poder', 'mes', 'dia', 'tipo'], ['Natal', 'N', '12', '25', 'F'])
 
+# print(db.select('tb_feriado', ['*'], ' id IS NOT NULL ', 'LIMIT 10'))
 
-print(db.select('tb_feriado', ['*'], ' id IS NOT NULL ', 'LIMIT 10'))
-
-# local = '2111300'
+# local = '3146107'
 # # data = 'corpus-christi'
-# data = '2020-04-10'
+# data = '2020-06-11'
 
 # poder = utils.trataPoder(local, feriadoUtil)
 # isFeriadoMovel = feriadoUtil.isFeriadoNacionalMovel(data)
@@ -82,7 +81,7 @@ print(db.select('tb_feriado', ['*'], ' id IS NOT NULL ', 'LIMIT 10'))
 #     index_feriados = data
 #     data = feriadoUtil.nacionais_moveis[data]['dia']
 # else:
-#     valid = feriadoUtil.validDate(data)
+#     valid = utils.validDate(data)
 #     if valid != True:
 #         print({'error':valid}, 400)
 
@@ -95,20 +94,32 @@ print(db.select('tb_feriado', ['*'], ' id IS NOT NULL ', 'LIMIT 10'))
 
 # try:
 #     if len(result) != 0:
+
+#         if result[0]['poder'] == 'N':
+#             if poder == 'E':
+#                 print({'error':'Impossível inserir feriado estadual, já existe um feriado nacional'}, 403)
+#             if poder == 'M':
+#                 print({'error':'Impossível inserir feriado municipal, já existe um feriado nacional'}, 403)
+
+#         if result[0]['poder'] == 'E' and poder == 'M':
+#             print({'error':'Impossível inserir feriado municipal, já existe um feriado estadual'}, 403)
+
+#         print('UPDATE')
 #         print({'name':result[0]['name']}, 200)
 #     else:
 
+#         print('INSERT')
 #         # if feriadoUtil.isOutroAno(data):
-#         feriado = feriadoUtil.testFeriadosFuturos(data)
-#         if feriado != False:
-#             data = feriadoUtil.trataData(data)
-#             db.insert("tb_feriado", ['name', 'poder', 'ano', 'mes', 'dia', 'local', 'tipo'], (feriado['nome'], poder, data[0], data[1], data[2], local, 'M'))
-#             print({'name':feriado['nome']}, 200)
-#         # else:
+#         # feriado = feriadoUtil.testFeriadosFuturos(data)
+#         # if feriado != False:
+#         #     data = feriadoUtil.trataData(data)
+#         #     db.insert("tb_feriado", ['name', 'poder', 'ano', 'mes', 'dia', 'local', 'tipo'], (feriado['nome'], poder, data[0], data[1], data[2], local, 'M'))
+#         #     print({'name':feriado['nome']}, 200)
+# #         # else:
 
 
 
-#         print({'error':'Feriado não encontrado 1'}, 404)
+# #         print({'error':'Feriado não encontrado 1'}, 404)
 
 # except (Exception) as error:
 #     print({'error':'Feriado não encontrado 2'}, 404)

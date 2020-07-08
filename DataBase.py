@@ -110,7 +110,7 @@ class DataBase:
             self.sql = self.sql[0:len(self.sql)-2]
 
             self.sql += " WHERE " + where
-            # print(self.sql)
+
             self.cur.execute(self.sql, vals)
             self.conn.commit()
 

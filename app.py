@@ -1,45 +1,36 @@
 import os
 from flask import Flask, make_response, jsonify, request
-from config import Config, DevelopmentConfig
+from config import ProductionConfig
 from flask_sqlalchemy import SQLAlchemy
 from Utils import Utils
 from FeriadoUtils import FeriadoUtils
 
 from DataBase import DataBase
 
-config = Config()
 db = DataBase()
 utils = Utils()
 feriadoUtil = FeriadoUtils(utils)
 
 headers = {"Content-Type": "application/json"}
 
-# print(os.environ['APP_SETTINGS'])
-
 app = Flask(__name__)
 # app.config.from_object(os.environ['APP_SETTINGS'])
-app.config.from_object(DevelopmentConfig())
+app.config.from_object(ProductionConfig())
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # db = SQLAlchemy(app)
 
 from models import Estado
 
-
 @app.route('/')
 def hello():
-    return "Colossal Company!", 200
+    return "Hello to Colossal Company!", 200
 
 
 @app.route('/feriados/')
 def start():
     return jsonify(db.select('tb_feriado', ['*'], None, None)), 200
 
-
-@app.route('/limpar/')
-def clear():
-    db.delete('tb_feriado', 'id > 8')
-    return 'ok', 200
 
 @app.route('/feriados/<local>/<data>/', methods=['GET', 'PUT', 'DELETE'])
 def defData(local, data):
@@ -101,13 +92,26 @@ def defData(local, data):
 
     elif request.method == 'PUT':
 
-        req = request.get_json()
-        name = feriadoUtil.nacionais_moveis[index_feriados]['nome'] if isFeriadoMovel else req['name']
+        if isFeriadoMovel:
+            name = feriadoUtil.nacionais_moveis[index_feriados]['nome'] 
+        else:
+            req = request.get_json()
+            name = req['name']
 
         try:
             data = feriadoUtil.trataData(data)
 
             if len(result) != 0:
+
+                if result[0]['poder'] == 'N':
+                    if poder == 'E':
+                        return {'error':'Impossível inserir feriado estadual, já existe um feriado nacional'}, 403
+                    if poder == 'M':
+                        return {'error':'Impossível inserir feriado municipal, já existe um feriado nacional'}, 403
+
+                if result[0]['poder'] == 'E' and poder == 'M':
+                    return {'error':'Impossível inserir feriado municipal, já existe um feriado estadual'}, 403
+
                 resp = db.update('tb_feriado', ['name'], (str(name), result[0]['id']), 'id = %s' )
                 if resp == True:
                     return {'msg':'Cadastro alterado com sucesso'}, 200
